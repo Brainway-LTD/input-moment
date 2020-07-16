@@ -29,17 +29,6 @@ http://wangzuo.github.io/input-moment
   hourStep={1} // default
   prevMonthIcon="ion-ios-arrow-left" // default
   nextMonthIcon="ion-ios-arrow-right" // default
-  dateIcon='ion-calendar im-btn' // default
-  timeIcon='ion-clock im-btn' // default
-  onValidate={m => true}
-  customText={{
-      date: 'Date', // default
-      time: 'Time', // default
-      next: 'Next', // default
-      save: 'Save', // default
-      hours: 'Hours:', // default
-      minutes: 'Minutes:' // default
-  }}
 />
 ```
 Check [app.js](https://github.com/wangzuo/input-moment/blob/master/example/app.js) for a working example.

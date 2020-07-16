@@ -3,34 +3,21 @@ import React, { Component } from 'react';
 import InputSlider from 'react-input-slider';
 
 export default class extends Component {
-  state = {
-    m: this.props.moment.clone()
-  }
   changeHours = pos => {
     const m = this.props.moment;
-    const _m = this.props._moment;
-    if (typeof this.props.onValidate === 'function' && !this.props.onValidate(m.clone().hours(pos.x))) {
-      return
-    }
     m.hours(pos.x);
-    _m.hours(pos.x);
-    this.props.onChange(m.clone());
+    this.props.onChange(m);
   };
 
   changeMinutes = pos => {
     const m = this.props.moment;
-    const _m = this.props._moment;
-    if (typeof this.props.onValidate === 'function' && !this.props.onValidate(m.clone().minutes(pos.x))) {
-      return
-    }
     m.minutes(pos.x);
-    _m.minutes(pos.x);
-    this.props.onChange(m.clone());
+    this.props.onChange(m);
   };
 
   render() {
     const m = this.props.moment;
-    const { hours, minutes } = this.props.text
+
     return (
       <div className={cx('m-time', this.props.className)}>
         <div className="showtime">
@@ -40,7 +27,7 @@ export default class extends Component {
         </div>
 
         <div className="sliders">
-          <div className="time-text">{hours}</div>
+          <div className="time-text">Hours:</div>
           <InputSlider
             className="u-slider-time"
             xmin={0}
@@ -49,7 +36,7 @@ export default class extends Component {
             x={m.hour()}
             onChange={this.changeHours}
           />
-          <div className="time-text">{minutes}</div>
+          <div className="time-text">Minutes:</div>
           <InputSlider
             className="u-slider-time"
             xmin={0}

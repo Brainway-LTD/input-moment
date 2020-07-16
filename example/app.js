@@ -6,19 +6,9 @@ import ReactDOM from 'react-dom';
 import InputMoment from '../src/input-moment';
 import packageJson from '../package.json';
 
-const interval = 5 * 60 * 1000
-
 class App extends Component {
   state = {
-    m: moment(moment(Math.ceil(moment() / interval) * interval)),
-    customText: {
-      date: 'Date',
-      time: 'Time',
-      next: 'Next',
-      save: 'Save',
-      hours: 'Hours:',
-      minutes: 'Minutes:'
-    }
+    m: moment()
   };
 
   handleChange = m => {
@@ -29,9 +19,6 @@ class App extends Component {
     console.log('saved', this.state.m.format('llll'));
   };
 
-  handleValidate = m => {
-    return !m.isBefore(new Date())
-  }
   render() {
     return (
       <div className="app">
@@ -48,8 +35,6 @@ class App extends Component {
             onChange={this.handleChange}
             minStep={5}
             onSave={this.handleSave}
-            customText={this.state.customText}
-            onValidate={this.handleValidate}
           />
         </form>
       </div>
