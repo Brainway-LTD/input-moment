@@ -55,7 +55,7 @@ export default class Calendar extends Component {
     const days = Array.from(range.by('days')).map(day => {
       return day.toISOString()
     })
-    const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeks = Array.from(moment.range(m.clone().weekday(0), m.clone().weekday(6)).by('days')).map(day => day.format('ddd'))
 
     return (
       <div className={cx('m-calendar', className)}>
