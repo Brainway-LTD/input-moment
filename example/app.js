@@ -10,7 +10,7 @@ const interval = 5 * 60 * 1000
 
 class App extends Component {
   state = {
-    m: moment(moment(Math.ceil(moment() / interval) * interval)),
+    momentState: moment(Math.ceil(moment() / interval) * interval),
     customText: {
       date: 'Date',
       time: 'Time',
@@ -22,11 +22,11 @@ class App extends Component {
   };
 
   handleChange = m => {
-    this.setState({ m });
+    this.setState({ momentState: m });
   };
 
   handleSave = () => {
-    console.log('saved', this.state.m.format('llll'));
+    console.log('saved', this.state.momentState.format('llll'));
   };
 
   handleValidate = m => {
@@ -41,10 +41,10 @@ class App extends Component {
         <h2>{packageJson.description}</h2>
         <form>
           <div className="input">
-            <input type="text" value={this.state.m.format('llll')} readOnly />
+            <input type="text" value={this.state.momentState.format('llll')} readOnly />
           </div>
           <InputMoment
-            moment={this.state.m}
+            moment={this.state.momentState}
             onChange={this.handleChange}
             minStep={5}
             onSave={this.handleSave}

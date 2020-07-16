@@ -22,9 +22,6 @@ export default class Calendar extends Component {
   selectDate = (day) => {
     const m = this.props._moment;
     m.set(moment(day).toObject())
-    if (m.isBefore(new Date())) {
-      return
-    }
     this.props.onChange(m);
     this.props.onSetDate(m.clone());
   };
@@ -40,6 +37,13 @@ export default class Calendar extends Component {
   };
 
   render() {
+    const {
+      className,
+      prevMonthIcon,
+      nextMonthIcon,
+      onValidate,
+    } = this.props;
+
     const m = this.props._moment;
     const d = this.props.moment.toISOString();
     const d1 = m.clone().subtract(1, 'month').endOf('month').date();
@@ -54,14 +58,14 @@ export default class Calendar extends Component {
     const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return (
-      <div className={cx('m-calendar', this.props.className)}>
+      <div className={cx('m-calendar', className)}>
         <div className="toolbar">
           <button type="button" className="prev-month" onClick={this.prevMonth}>
-            <i className={this.props.prevMonthIcon} />
+            <i className={prevMonthIcon} />
           </button>
           <span className="current-date">{m.format('MMMM YYYY')}</span>
           <button type="button" className="next-month" onClick={this.nextMonth}>
-            <i className={this.props.nextMonthIcon} />
+            <i className={nextMonthIcon} />
           </button>
         </div>
 
@@ -76,7 +80,7 @@ export default class Calendar extends Component {
             {chunk(days, 7).map((row, w) =>
               <tr key={w}>
                 {row.map(day => {
-                  const isDisabled = typeof this.props.onValidate === 'function' ? !this.props.onValidate(moment(day)) : false
+                  const isDisabled = typeof onValidate === 'function' ? !onValidate(moment(day)) : false
                   return <Day
                     key={day}
                     d={d}
