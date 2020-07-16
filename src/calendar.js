@@ -1,56 +1,56 @@
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import React, { Component } from 'react';
 import cx from 'classnames';
-import range from 'lodash/range';
 import chunk from 'lodash/chunk';
 
-const Day = ({ i, w, d, className, ...props }) => {
-  const prevMonth = w === 0 && i > 7;
-  const nextMonth = w >= 4 && i <= 14;
+const moment = extendMoment(Moment);
+
+const Day = ({ d, className, isDisabled, day, ...props }) => {
+  const Day = moment(day)
   const cls = cx({
-    'prev-month': prevMonth,
-    'next-month': nextMonth,
-    'current-day': !prevMonth && !nextMonth && i === d
+    // 'prev-month': Day.isBefore(moment().date(1)),
+    // 'next-month': Day.isAfter(moment().endOf('month').date()),
+    'current-day': Day.format('YY-MM-DD') === moment(d).format('YY-MM-DD'),
+    'disabled': isDisabled
   });
 
-  return <td className={cls} {...props}>{i}</td>;
+  return <td className={cls} {...props}>{Day.date()}</td>;
 };
 
 export default class Calendar extends Component {
-  selectDate = (i, w) => {
-    const prevMonth = w === 0 && i > 7;
-    const nextMonth = w >= 4 && i <= 14;
-    const m = this.props.moment;
-
-    if (prevMonth) m.subtract(1, 'month');
-    if (nextMonth) m.add(1, 'month');
-
-    m.date(i);
-
+  selectDate = (day) => {
+    const m = this.props._moment;
+    m.set(moment(day).toObject())
+    if (m.isBefore(new Date())) {
+      return
+    }
     this.props.onChange(m);
+    this.props.onSetDate(m.clone());
   };
 
   prevMonth = e => {
     e.preventDefault();
-    this.props.onChange(this.props.moment.subtract(1, 'month'));
+    this.props.onChange(this.props._moment.subtract(1, 'month'));
   };
 
   nextMonth = e => {
     e.preventDefault();
-    this.props.onChange(this.props.moment.add(1, 'month'));
+    this.props.onChange(this.props._moment.add(1, 'month'));
   };
 
   render() {
-    const m = this.props.moment;
-    const d = m.date();
+    const m = this.props._moment;
+    const d = this.props.moment.toISOString();
     const d1 = m.clone().subtract(1, 'month').endOf('month').date();
     const d2 = m.clone().date(1).day();
-    const d3 = m.clone().endOf('month').date();
-    const days = [].concat(
-      range(d1 - d2 + 1, d1 + 1),
-      range(1, d3 + 1),
-      range(1, 42 - d3 - d2 + 1)
-    );
+
+    const start = m.clone().subtract(1, 'month').date(d1 - d2 + 1)
+    const end = start.clone().add(41, 'day')
+    const range = moment.range(start, end)
+    const days = Array.from(range.by('days')).map(day => {
+      return day.toISOString()
+    })
     const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return (
@@ -75,14 +75,16 @@ export default class Calendar extends Component {
           <tbody>
             {chunk(days, 7).map((row, w) =>
               <tr key={w}>
-                {row.map(i =>
-                  <Day
-                    key={i}
-                    i={i}
+                {row.map(day => {
+                  const isDisabled = typeof this.props.onValidate === 'function' ? !this.props.onValidate(moment(day)) : false
+                  return <Day
+                    key={day}
                     d={d}
-                    w={w}
-                    onClick={() => this.selectDate(i, w)}
+                    day={day}
+                    isDisabled={isDisabled}
+                    onClick={() => isDisabled ? null : this.selectDate(day)}
                   />
+                }
                 )}
               </tr>
             )}
