@@ -9,8 +9,8 @@ export default class InputMoment extends Component {
   static defaultProps = {
     prevMonthIcon: 'ion-ios-arrow-left',
     nextMonthIcon: 'ion-ios-arrow-right',
-    dateIcon: 'ion-calendar im-btn',
-    timeIcon: 'ion-clock im-btn',
+    dateIcon: 'ion-calendar',
+    timeIcon: 'ion-clock',
     onValidate: m => true,
     customText: {},
     minStep: 1,
@@ -55,6 +55,7 @@ export default class InputMoment extends Component {
       onSave,
       customText,
       onValidate,
+      isRtl,
       ...props
     } = this.props;
     const cls = cx('m-input-moment', className);
@@ -75,17 +76,17 @@ export default class InputMoment extends Component {
         <div className="options">
           <button
             type="button"
-            className={cx(dateIcon, { 'is-active': tab === 0 })}
+            className={cx({ 'is-active': tab === 0 })}
             onClick={e => this.handleClickTab(e, 0)}
           >
-            {text.date}
+            <i className={dateIcon} />{text.date}
           </button>
           <button
             type="button"
-            className={cx(timeIcon, { 'is-active': tab === 1 })}
+            className={cx({ 'is-active': tab === 1 })}
             onClick={e => this.handleClickTab(e, 1)}
           >
-            {text.time}
+            <i className={timeIcon} />{text.time}
           </button>
         </div>
 
@@ -110,6 +111,7 @@ export default class InputMoment extends Component {
             onChange={this.props.onChange}
             text={text}
             onValidate={onValidate}
+            isRtl={isRtl}
           />
         </div>
 

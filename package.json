@@ -51,7 +51,7 @@
     "classnames": "^2.2.0",
     "lodash": "^4.17.4",
     "moment-range": "^4.0.2",
-    "react-input-slider": "^4.0.0"
+    "react-input-slider": "^5.1.7"
   },
   "repository": {
     "type": "git",

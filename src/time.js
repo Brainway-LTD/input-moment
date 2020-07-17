@@ -27,7 +27,7 @@ export default class extends Component {
     const { hours, minutes } = this.props.text
     return (
       <div className={cx('m-time', this.props.className)}>
-        <div className="showtime">
+        <div className="showtime" dir="ltr">
           <span className="time">{m.format('HH')}</span>
           <span className="separater">:</span>
           <span className="time">{m.format('mm')}</span>
@@ -42,6 +42,7 @@ export default class extends Component {
             xstep={this.props.hourStep}
             x={m.hour()}
             onChange={this.changeHours}
+            xreverse={this.props.isRtl}
           />
           <div className="time-text">{minutes}</div>
           <InputSlider
@@ -51,6 +52,7 @@ export default class extends Component {
             xstep={this.props.minStep}
             x={m.minute()}
             onChange={this.changeMinutes}
+            xreverse={this.props.isRtl}
           />
         </div>
       </div>
