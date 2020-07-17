@@ -15,10 +15,12 @@ export default class extends Component {
   };
 
   changeMinutes = pos => {
+    const { minStep } = this.props
     const m = this.props.moment;
     const _m = this.props._moment;
-    m.minutes(pos.x);
-    _m.minutes(pos.x);
+    const x = Math.floor(pos.x / minStep) * minStep
+    m.minutes(x);
+    _m.minutes(x);
     this.props.onChange(m.clone());
   };
 
@@ -49,7 +51,6 @@ export default class extends Component {
             className="u-slider-time"
             xmin={0}
             xmax={59}
-            xstep={this.props.minStep}
             x={m.minute()}
             onChange={this.changeMinutes}
             xreverse={this.props.isRtl}
