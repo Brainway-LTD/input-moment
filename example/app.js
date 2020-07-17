@@ -50,6 +50,7 @@ class App extends Component {
             onSave={this.handleSave}
             customText={this.state.customText}
             onValidate={this.handleValidate}
+            isRtl={false}
           />
         </form>
       </div>

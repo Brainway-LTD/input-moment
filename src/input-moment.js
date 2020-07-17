@@ -55,6 +55,7 @@ export default class InputMoment extends Component {
       onSave,
       customText,
       onValidate,
+      isRtl,
       ...props
     } = this.props;
     const cls = cx('m-input-moment', className);
@@ -110,6 +111,7 @@ export default class InputMoment extends Component {
             onChange={this.props.onChange}
             text={text}
             onValidate={onValidate}
+            isRtl={isRtl}
           />
         </div>
 
